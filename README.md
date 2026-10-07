@@ -7,20 +7,20 @@ Hundreds of blue beads in a dark, shallow tray. Tilt, shake, stir and throw them
 - Shared impulse physics with varied sphere sizes and masses, friction, spin, rolling resistance and sleeping.
 - Baked glass lighting: azure gradients, sharp highlights, translucent rim light, soft shadows and rotating internal swirls. Fast beads brighten smoothly.
 - Round watch tray or rounded rectangular phone tray; edge-to-edge phone rendering with inset-aware controls.
-- 250–450 beads on the watch; 600–1,200 on the phone. Phone colours: Azure, Pearl, Amber and Emerald.
+- 100–600 beads on the watch; 100–2,000 on the phone. Phone colours: Azure, Pearl, Amber and Emerald.
 - Synthesized glass sounds with limited polyphony; impact-only haptics with a 120 ms minimum interval and a replenishing energy budget. Sound and haptics have independent saved switches.
 - No accounts, ads, network permission or third-party runtime libraries.
 
 ## Download
 
-**[Release v2.0.0](https://github.com/david-x3d/Cascade/releases/tag/v2.0.0)**
+**[Release v2.1.0](https://github.com/david-x3d/Cascade/releases/tag/v2.1.0)**
 
 | Device | APK | Requirement |
 |---|---|---|
-| Android phone | [Cascade-phone-v2.0.0.apk](https://github.com/david-x3d/Cascade/releases/download/v2.0.0/Cascade-phone-v2.0.0.apk) | Android 11+ |
-| Wear OS watch | [Cascade-wear-v2.0.0.apk](https://github.com/david-x3d/Cascade/releases/download/v2.0.0/Cascade-wear-v2.0.0.apk) | Wear OS 3+ |
+| Android phone | [Cascade-phone-v2.1.0.apk](https://github.com/david-x3d/Cascade/releases/download/v2.1.0/Cascade-phone-v2.1.0.apk) | Android 11+ |
+| Wear OS watch | [Cascade-wear-v2.1.0.apk](https://github.com/david-x3d/Cascade/releases/download/v2.1.0/Cascade-wear-v2.1.0.apk) | Wear OS 3+ |
 
-Both variants use `dev.cascade`, version **2.0.0 (2)**. Install the correct APK on each device. The release uses the developer's local Android debug signing key for sideloading. An older Cascade install signed by another key must be uninstalled before installing this build. Clickety (`dev.clickety`) is a separate app and may be removed manually.
+Both variants use `dev.cascade`, version **2.1.0 (3)**. Install the correct APK on each device. The release uses the developer's local Android debug signing key for sideloading. An older Cascade install signed by another key must be uninstalled before installing this build. Clickety (`dev.clickety`) is a separate app and may be removed manually.
 
 ## Controls
 
@@ -65,7 +65,7 @@ Install [Android SDK Platform Tools](https://developer.android.com/tools/release
 
 ```sh
 adb devices
-adb -s PHONE_SERIAL install -r Cascade-phone-v2.0.0.apk
+adb -s PHONE_SERIAL install -r Cascade-phone-v2.1.0.apk
 ```
 
 Replace `PHONE_SERIAL` with the phone's entry in `adb devices` (or omit `-s PHONE_SERIAL` when only one device is connected).
@@ -81,7 +81,7 @@ Use the **wear APK**. Connect the watch and the installing phone or computer to 
 3. On the watch, open **Developer options → Wireless debugging → Pair new device**.
 4. In the installer app's wireless pairing screen, enter the watch IP, the **pairing port** and the six-digit pairing code shown on the watch.
 5. After pairing, return to the watch's main **Wireless debugging** screen. Connect the installer to the IP and **connection port** shown there.
-6. In Bugjaeger, open Packages and choose the APK installation action; in Wear Installer 2, select the downloaded APK through its custom APK option. Choose `Cascade-wear-v2.0.0.apk` and install.
+6. In Bugjaeger, open Packages and choose the APK installation action; in Wear Installer 2, select the downloaded APK through its custom APK option. Choose `Cascade-wear-v2.1.0.apk` and install.
 
 See [Bugjaeger's watch pairing guide](https://sisik.eu/blog/android/bugjaeger/connect-watch) and [Wear Installer 2 help](https://freepoc.org/wear-installer-2-help-page/) for current app-specific screens.
 
@@ -98,7 +98,7 @@ Return to the main **Wireless debugging** screen, then use its other port:
 
 ```sh
 adb connect WATCH_IP:CONNECTION_PORT
-adb -s WATCH_IP:CONNECTION_PORT install -r Cascade-wear-v2.0.0.apk
+adb -s WATCH_IP:CONNECTION_PORT install -r Cascade-wear-v2.1.0.apk
 ```
 
 **Pairing details matter:**

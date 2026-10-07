@@ -10,7 +10,7 @@ fun checkFinite(s: BeadSim) {
 }
 fun main() {
     // Two unequal masses: momentum conservation, separation and restitution.
-    val pair = BeadSim(1f,false,.02f,2); pair.setCount(2)
+    val pair = BeadSim(1f,false,.02f,2); pair.setCount(2); pair.floorDrag = 0f
     pair.x[0]=.47f; pair.x[1]=.51f; pair.y[0]=.5f; pair.y[1]=.5f
     pair.vx[0]=.4f; pair.vx[1]=-.2f
     val momentum = pair.vx[0]/pair.invMass[0]+pair.vx[1]/pair.invMass[1]
@@ -40,6 +40,21 @@ fun main() {
         checkFinite(s)
         println("PASS pile, sleep, wake and shake containment; ${((System.nanoTime()-start)/1e6).toInt()} ms")
     }
+    // Twisting the tray: beads lag behind the rotation, stay contained and settle again.
+    val twist=BeadSim(2.15f,false,.0135f,1200); twist.setCount(1200)
+    repeat(1200) { twist.step(0f,2.1f) }
+    var spinBefore=0f
+    repeat(720) { tick ->
+        val w=3f*sin(tick*.02f); val a=3f*.02f*240f*cos(tick*.02f)
+        twist.step(0f,2.1f,w,a); if(tick%60==0) checkFinite(twist)
+        if(tick==20) for(i in 0 until twist.count) spinBefore+=(twist.x[i]-.5f)*twist.vy[i]-(twist.y[i]-twist.height*.5f)*twist.vx[i]
+    }
+    check(spinBefore<0f) { "Beads did not counter-rotate against the tray" }
+    repeat(30) { twist.jolt(.5f); repeat(8) { twist.step(0f,2.1f) }; checkFinite(twist) }
+    repeat(2400) { twist.step(0f,2.1f) }
+    checkFinite(twist)
+    check(twist.awakeCount<twist.count*.25f) { "Pile does not settle after twist and jolts" }
+    println("PASS twist counter-rotation, jolts and re-settling")
     val finger=BeadSim(1f,false,.02f,1); finger.setCount(1)
     finger.x[0]=.5f; finger.y[0]=.5f
     finger.fingerOn[0]=true; finger.fingerX[0]=.46f; finger.fingerY[0]=.5f; finger.fingerVx[0]=2f
