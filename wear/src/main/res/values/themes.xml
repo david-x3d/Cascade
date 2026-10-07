@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.Cascade" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+    <style name="Theme.Clickety" parent="@android:style/Theme.DeviceDefault.NoActionBar">
         <item name="android:windowBackground">@android:color/black</item>
         <!-- Dragging pushes the beads around, so the system swipe-to-dismiss would fight it.
              Exit with the side button instead. -->

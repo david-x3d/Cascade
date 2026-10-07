@@ -1,4 +1,4 @@
-package dev.cascade
+package dev.clickety.wear
 
 import android.content.Context
 import android.media.AudioAttributes

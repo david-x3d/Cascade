@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Cascade"
-include(":app")
+rootProject.name = "Clickety"
+include(":wear", ":phone")

@@ -1,4 +1,4 @@
-package dev.cascade
+package dev.clickety.wear
 
 import android.app.Activity
 import android.content.Context
@@ -18,7 +18,7 @@ class MainActivity : Activity(), SensorEventListener {
     private lateinit var sensors: SensorManager
     private var sensor: Sensor? = null
 
-    private val prefs by lazy { getSharedPreferences("cascade", Context.MODE_PRIVATE) }
+    private val prefs by lazy { getSharedPreferences("clickety", Context.MODE_PRIVATE) }
 
     // Low-passed accelerometer, used as gravity when the device has no fused gravity sensor.
     private val smoothed = FloatArray(3)

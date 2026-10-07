@@ -1,4 +1,4 @@
-package dev.cascade
+package dev.clickety.wear
 
 import kotlin.math.max
 import kotlin.math.min
