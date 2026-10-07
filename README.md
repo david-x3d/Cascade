@@ -1,137 +1,150 @@
-<img src="assets/icon.svg" width="96" height="96" alt="Clickety icon">
+<p align="center"><img src="assets/icon.svg" width="112" alt="Cascade icon"></p>
+<h1 align="center">Cascade</h1>
+<p align="center">Glassy fidget beads for Wear OS and Android. Tilt and they pour.</p>
 
-# Clickety
+Hundreds of blue beads in a dark, shallow tray. Tilt, shake, stir and throw them with your fingers. Inspired by the feel of real glass beads and Beadfall on Apple Watch, built independently for Android with Kotlin and the platform SDK.
 
-**Fidget toys for your phone and your Wear OS watch.**
-
-Clickety has two apps:
-
-- **Phone:** four fidgets in one app (Sand, Lava, Switches and Slime).
-- **Watch (Wear OS):** glossy beads that pour as you tilt your wrist.
-
-Both are tiny, work offline, have no ads or tracking, and only ask for permission to vibrate.
-
-## Phone fidgets
-
-| Fidget | What it is | How to play |
-| --- | --- | --- |
-| **Sand** | An hourglass of sand in a walnut-and-brass frame. Each grain is simulated separately and has its own mineral colour, so streams speed up as they fall, piles keep a natural slope and the neck lets through a few grains at a time. You hear the sand trickle. | Tilt to pour, double-tap to turn it over |
-| **Lava** | A lava lamp. Wax blobs heat up in the pool at the bottom, rise, cool off at the top and sink again. They merge and split as they move. | Tilt the phone, stir and warm the wax with your finger |
-| **Switches** | A metal panel of controls: bat-handle toggles with LEDs, lit rocker switches, clicky mechanical keys, a knob that clicks into steps, a big red arcade button and a fader. Each has its own sound and vibration. | Flip, press, turn, slide. Several fingers work at once |
-| **Slime** | A jiggly, see-through jelly with glitter and air bubbles inside. It squishes, wobbles, sparkles and slaps against the edges of the screen. | Poke it, grab it, stretch it with two fingers, fling it, tilt it. Tap the colour dots to change the colour |
-
-## Watch: beads
-
-Hundreds of blue beads roll around the watch face as you tilt your wrist, clicking softly and ticking on your wrist as they land.
-
-| Action | What it does |
-| --- | --- |
-| Tilt / shake wrist | Pour the beads |
-| Touch & drag | Push beads away from your finger |
-| Rotate crown / bezel | More or fewer beads |
-| Double-tap | Sound on/off |
-| Long-press | Haptics on/off |
-| Side button / back | Exit |
+- Shared impulse physics with varied sphere sizes and masses, friction, spin, rolling resistance and sleeping.
+- Baked glass lighting: azure gradients, sharp highlights, translucent rim light, soft shadows and rotating internal swirls. Fast beads brighten smoothly.
+- Round watch tray or rounded rectangular phone tray; edge-to-edge phone rendering with inset-aware controls.
+- 250–450 beads on the watch; 600–1,200 on the phone. Phone colours: Azure, Pearl, Amber and Emerald.
+- Synthesized glass sounds with limited polyphony; impact-only haptics with a 120 ms minimum interval and a replenishing energy budget. Sound and haptics have independent saved switches.
+- No accounts, ads, network permission or third-party runtime libraries.
 
 ## Download
 
-Get both APKs from the [latest release](https://github.com/david-x3d/Clickety/releases/latest):
+**[Release v2.0.0](https://github.com/david-x3d/Cascade/releases/tag/v2.0.0)**
 
-- `Clickety-phone-v2.0.0.apk`: for Android phones running Android 11 or newer.
-- `Clickety-wear-v2.0.0.apk`: for Wear OS 3 or newer watches (Pixel Watch, Galaxy Watch 4 or newer, etc.).
+| Device | APK | Requirement |
+|---|---|---|
+| Android phone | [Cascade-phone-v2.0.0.apk](https://github.com/david-x3d/Cascade/releases/download/v2.0.0/Cascade-phone-v2.0.0.apk) | Android 11+ |
+| Wear OS watch | [Cascade-wear-v2.0.0.apk](https://github.com/david-x3d/Cascade/releases/download/v2.0.0/Cascade-wear-v2.0.0.apk) | Wear OS 3+ |
+
+Both variants use `dev.cascade`, version **2.0.0 (2)**. Install the correct APK on each device. The release uses the developer's local Android debug signing key for sideloading. An older Cascade install signed by another key must be uninstalled before installing this build. Clickety (`dev.clickety`) is a separate app and may be removed manually.
+
+## Controls
+
+### Watch
+
+| Action | Control |
+|---|---|
+| Pour / shake the beads | Tilt / move your wrist |
+| Stir and throw | Drag or flick a finger |
+| Change bead count | Turn the crown |
+| Toggle sound | Double-tap |
+| Toggle haptics | Long-press |
+| Leave the app | Side button / system Home button |
+
+Swipe-to-dismiss is disabled so dragging does not dismiss the tray. The app pauses when it leaves the foreground; it does not force the screen to stay awake.
+
+### Phone
+
+| Action | Control |
+|---|---|
+| Pour / shake | Tilt / move the phone |
+| Stir and throw | Drag or flick, with multiple fingers |
+| Sound and haptics | **•••** → individual switches |
+| Change bead count | **•••** → slider |
+| Change colour | **•••** → colour selector |
+
+Portrait orientation is locked. A brief first-launch hint fades away automatically. Settings are saved locally.
 
 ## Install on a phone
 
 ### Without a PC
 
-1. Open the [latest release](https://github.com/david-x3d/Clickety/releases/latest) on your phone and tap `Clickety-phone-v2.0.0.apk` to download it.
-2. Open the downloaded file, from the download notification or the **Files** app.
-3. If Android blocks it, tap **Settings** and turn on **Allow from this source** for your browser or Files app, then go back.
-4. Tap **Install**. If Play Protect warns about an unknown app, tap **More details → Install anyway**.
+1. Download the **phone APK** above on your Android phone.
+2. Open it from the browser's downloads or Files.
+3. If prompted, open Settings and enable **Allow from this source** for that browser or file manager, then return to the installer.
+4. Review the installation prompt and install Cascade. Google Play Protect may scan the APK or display a warning because it is distributed outside Google Play; review the source and warning before deciding to proceed. You do not need to disable Play Protect globally.
+5. You can turn off **Allow from this source** again after installation.
 
-### With a PC (adb)
+### With a PC
 
-1. Turn on USB debugging. Go to **Settings → About phone**, tap **Build number** 7 times, then go to **Settings → System → Developer options** and turn on **USB debugging**.
-2. Plug the phone in and allow the debugging prompt.
-3. Run:
+Install [Android SDK Platform Tools](https://developer.android.com/tools/releases/platform-tools), enable developer options and USB debugging on the phone, connect it by USB and accept its authorization prompt:
 
-   ```sh
-   adb install Clickety-phone-v2.0.0.apk
-   ```
+```sh
+adb devices
+adb -s PHONE_SERIAL install -r Cascade-phone-v2.0.0.apk
+```
+
+Replace `PHONE_SERIAL` with the phone's entry in `adb devices` (or omit `-s PHONE_SERIAL` when only one device is connected).
 
 ## Install on a watch
 
-Watches can't install APKs on their own, so you always go through wireless debugging, either from your phone or from a PC.
+Use the **wear APK**. Connect the watch and the installing phone or computer to the same Wi-Fi network. Enable developer options by tapping the watch's build number seven times, then enable ADB debugging and Wireless debugging. Exact menu labels vary by watch.
 
-### First: enable developer options on the watch
+### Without a PC
 
-1. On the watch open **Settings → System → About** (on Galaxy Watch: **Settings → About watch → Software information**).
-2. Tap **Build number** 7 times until you see "You are now a developer".
-3. Go back to **Settings → Developer options** and turn on **ADB debugging** and **Wireless debugging** (older watches: **Debug over Wi-Fi**).
-4. Connect the watch to the same Wi-Fi network as your phone or PC, and keep its screen on while you install. Watches turn Wi-Fi off when the screen sleeps.
+1. Download the wear APK onto your Android phone.
+2. Install [Bugjaeger](https://sisik.eu/bugjaeger) or [Wear Installer 2](https://play.google.com/store/apps/details?id=org.freepoc.wearinstaller2) on the phone.
+3. On the watch, open **Developer options → Wireless debugging → Pair new device**.
+4. In the installer app's wireless pairing screen, enter the watch IP, the **pairing port** and the six-digit pairing code shown on the watch.
+5. After pairing, return to the watch's main **Wireless debugging** screen. Connect the installer to the IP and **connection port** shown there.
+6. In Bugjaeger, open Packages and choose the APK installation action; in Wear Installer 2, select the downloaded APK through its custom APK option. Choose `Cascade-wear-v2.0.0.apk` and install.
 
-The pairing code and port change every time you open **Pair new device**. That's normal, and you only need to pair once. Installing uses a **different** port: the **IP address & port** on the main **Wireless debugging** screen.
+See [Bugjaeger's watch pairing guide](https://sisik.eu/blog/android/bugjaeger/connect-watch) and [Wear Installer 2 help](https://freepoc.org/wear-installer-2-help-page/) for current app-specific screens.
 
-### Without a PC (phone only)
+### With a PC
 
-Use a free sideloading app on your Android phone. **Bugjaeger** and **Wear Installer 2** both work. These steps are for Bugjaeger:
+Install [Android SDK Platform Tools](https://developer.android.com/tools/releases/platform-tools). With **Pair new device** open on the watch:
 
-1. Download `Clickety-wear-v2.0.0.apk` from the release page on your phone.
-2. On the watch, open **Developer options → Wireless debugging → Pair new device**. It shows an IP:port and a 6-digit code.
-3. In Bugjaeger, tap the **plug icon → Pair** and enter that IP:port and code.
-4. Connect to the IP:port shown on the main **Wireless debugging** screen.
-5. Open the **Packages** tab, tap **+** and pick the downloaded APK.
-6. Clickety appears in the watch's app list.
+```sh
+adb pair WATCH_IP:PAIRING_PORT
+# Enter the six-digit code displayed on the watch.
+```
 
-On older watches with **Debug over Wi-Fi** instead of pairing, skip steps 2–3. Connect straight to the IP:port it shows and accept the prompt on the watch.
+Return to the main **Wireless debugging** screen, then use its other port:
 
-### With a PC (adb)
+```sh
+adb connect WATCH_IP:CONNECTION_PORT
+adb -s WATCH_IP:CONNECTION_PORT install -r Cascade-wear-v2.0.0.apk
+```
 
-1. Install the Android platform tools so you have `adb` ([download](https://developer.android.com/tools/releases/platform-tools)).
-2. On the watch, open **Developer options → Wireless debugging → Pair new device**.
-3. On the PC:
+**Pairing details matter:**
 
-   ```sh
-   adb pair <ip>:<pairing-port>      # enter the 6-digit code from the watch
-   adb connect <ip>:<port>           # port from the main Wireless debugging screen
-   adb install Clickety-wear-v2.0.0.apk
-   ```
+- The pairing code and pairing port change each time **Pair new device** is opened. Always read the current values.
+- Installation uses the **other port on the main Wireless debugging screen**, not the pairing port. The connection port can also change after reconnecting.
+- Keep the watch screen on during pairing and installation; watch power management can suspend Wi-Fi when the screen sleeps.
+- Use wireless ADB for Pixel Watch. Its standard charging cable is not a normal USB ADB installation connection.
+- Disable wireless debugging after installation if you no longer need it.
 
-   On older watches with **Debug over Wi-Fi**, skip `adb pair` and run `adb connect <ip>:5555`, then accept the prompt on the watch.
-4. Open Clickety from the watch's app list.
-
-Pixel Watches can't use wired adb because their chargers only carry power, so Wi-Fi is the only way.
-
-Turn off wireless debugging afterwards to save battery.
-
-### Upgrading from Cascade 1.0
-
-The watch app used to be called Cascade. Clickety installs alongside it as a separate app, so uninstall Cascade from the watch's app list or run `adb uninstall dev.cascade`.
+Reference: [Android's Wear OS Wi-Fi debugging instructions](https://developer.android.com/training/wearables/get-started/debug-wifi).
 
 ## Building from source
 
-Requires JDK 17 and the Android SDK (platform 36).
+Modules: `wear/` and `phone/` are thin launchers; `core/` is the Android library containing simulation, sprite rendering, sensors, input and feedback.
+
+- JDK 17, Android SDK 36; minSdk 30 and targetSdk 36.
+- Gradle wrapper 9.5.0, AGP 9.3.0 with built-in Kotlin.
+- Root buildscript pins `org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.10` for the existing offline cache.
+- No additional application dependencies. Android library support comes from the same cached AGP distribution.
+- Set `sdk.dir=/path/to/Android/Sdk` in the untracked `local.properties`.
+- Release signing expects `~/.android/debug.keystore`, alias `androiddebugkey`, store/key password `android`.
+
+With the Android SDK and Gradle dependencies already cached:
 
 ```sh
-./gradlew assembleRelease
-# phone/build/outputs/apk/release/phone-release.apk
-# wear/build/outputs/apk/release/wear-release.apk
+./gradlew --offline assembleRelease
 ```
 
-Release builds are signed with your local debug key (`~/.android/debug.keystore`) if it exists, so you can sideload them directly.
+Outputs:
 
-## How it works
+```text
+phone/build/outputs/apk/release/phone-release.apk
+wear/build/outputs/apk/release/wear-release.apk
+```
 
-Everything is drawn with plain Android `Canvas` and uses no third-party libraries.
+Both release variants enable R8 minification and resource shrinking. No emulator is required for building.
 
-**Phone** (`phone/`)
-- `SandglassView.kt`: a falling-sand simulation at about one grain per 0.2 mm. Each grain has a speed, which makes streams accelerate. A sideways-creep rule flattens piles to a natural slope. Grains are shaded by whether they face the light. The glass, walnut wood texture, brass collars and turned spindles are all drawn in code.
-- `SandAudio.kt`: a live audio stream that mixes a soft hiss for moving sand with tiny clicks for individual grains landing.
-- `LavaLampView.kt`: wax blobs that heat in the bottom pool, rise, cool and sink. They're rendered at low resolution through a colour lookup table, so the wax glows brighter near the bulb.
-- `SwitchesView.kt`: hand-drawn metal and plastic controls with spring animations. Several fingers can use them at once.
-- `SlimeView.kt`: a soft body of 96 points that pulls back towards its resting shape, keeps its volume and keeps a smooth outline. The glitter and bubbles inside squash and swirl with the body. Shadows, glows and highlights make it look see-through.
-- `Feedback.kt`: synthesises every click, clack and squelch at first launch, and maps them to vibration effects where the phone supports them.
+## How the physics works
 
-**Watch** (`wear/`)
-- `BeadSim.kt`: bead physics with a spatial grid for collisions and a round bowl.
-- `BeadView.kt`: draws each bead from a pre-rendered sprite, shaded by its speed.
+The tray is a two-dimensional projection of solid spheres. Radii vary ±10%; mass scales with radius cubed, and rotational inertia is `2/5 mr²`. A fixed 240 Hz step (four substeps at 60 Hz) and a frame accumulator separate physics timing from display refresh rate. A uniform grid finds neighbouring beads without an all-pairs scan; contact arrays are preallocated.
+
+Each substep performs 16 sequential impulse iterations. Restitution is 0.38 for distinct impacts; Coulomb friction couples tangential velocity and spin. Contact rolling resistance dissipates motion. Separate positional correction removes overlap without adding bounce. A conservative per-substep travel cap is an emergency guard against tunnelling, not full swept continuous collision detection. Quiet contacting beads sleep; meaningful contact motion, changes in tilt and touch wake them.
+
+A low-pass gravity estimate provides tilt; the residual accelerometer signal produces shake inertia. Fingers are velocity-carrying kinematic circles. Phone corner radii come from `RoundedCorner` on API 31+ with a fallback radius. Per-sphere baked lighting stays fixed while its subtle internal texture rotates.
+
+Feedback uses impact impulses rather than contact counts. Static support forces do not generate clicks. Sound events are rate-limited and small impacts use a softer, longer-decaying sample. Haptics additionally require a strong wall impact or throw impact, with a global cooldown and budget.
+
+This is a stylized shallow-tray model, not a full 3D granular solver. Device feel, maximum-count performance and haptic strength should be evaluated on real hardware; the release build does not imply device testing.

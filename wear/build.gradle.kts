@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "dev.clickety.wear"
+    namespace = "dev.cascade.wear"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "dev.clickety"
+        applicationId = "dev.cascade"
         minSdk = 30
         targetSdk = 36
         versionCode = 2
@@ -39,3 +39,5 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 }
+
+dependencies { implementation(project(":core")) }

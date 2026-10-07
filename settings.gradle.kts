@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Clickety"
-include(":wear", ":phone")
+rootProject.name = "Cascade"
+include(":wear", ":phone", ":core")

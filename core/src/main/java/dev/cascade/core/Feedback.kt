@@ -1,4 +1,4 @@
-package dev.clickety.wear
+package dev.cascade.core
 
 import android.content.Context
 import android.media.AudioAttributes
@@ -34,7 +34,7 @@ class Feedback(context: Context) {
     private val canTick = vibrator.areAllPrimitivesSupported(VibrationEffect.Composition.PRIMITIVE_TICK)
 
     private val pool = SoundPool.Builder()
-        .setMaxStreams(6)
+        .setMaxStreams(3)
         .setAudioAttributes(
             AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_GAME)
@@ -43,6 +43,7 @@ class Feedback(context: Context) {
         )
         .build()
 
+    private val loaded = BooleanArray(5)
     private val clicks: IntArray
 
     private var lastClick = 0L
@@ -51,40 +52,47 @@ class Feedback(context: Context) {
     init {
         // Synthesised once into the cache so the APK ships no audio assets.
         clicks = CLICK_PITCHES.mapIndexed { i, hz ->
-            val file = File(context.cacheDir, "click_$i.wav")
+            val file = File(context.cacheDir, "cascade_glass_v2_$i.wav")
             if (!file.exists()) writeClick(file, hz)
             pool.load(file.path, 1)
         }.toIntArray()
+        pool.setOnLoadCompleteListener { _, sample, status ->
+            if (status == 0) for (i in clicks.indices) if (clicks[i] == sample) loaded[i] = true
+        }
     }
 
-    /** Called once per frame with the simulation's collision stats. */
-    fun onFrame(peakImpact: Float, hits: Int, energy: Float) {
+    private var budget = 1.2f
+    private var budgetAt = SystemClock.uptimeMillis()
+    private var variant = 0
+
+    fun onFrame(peak: Float, wall: Float, energy: Float, radiusRatio: Float) {
         val now = SystemClock.uptimeMillis()
-        if (soundOn && hits > 0 && now - lastClick >= CLICK_INTERVAL_MS) {
-            lastClick = now
-            val volume = min(1f, peakImpact / 6f) * 0.8f
-            if (volume > 0.04f) {
-                pool.play(clicks.random(), volume, volume, 1, 0, 0.85f + Random.nextFloat() * 0.35f)
+        budget = min(1.2f, budget + (now - budgetAt) * .00065f)
+        budgetAt = now
+        if (soundOn && peak > .045f && now - lastClick >= 65) {
+            val volume = (peak * .38f + kotlin.math.sqrt(energy) * .04f).coerceIn(.015f, .65f)
+            val index = if (peak < .20f) 4 else (variant++ % 4)
+            if (loaded[index]) {
+                pool.play(clicks[index], volume, volume, 1, 0, (1f / radiusRatio).coerceIn(.8f,1.2f))
+                lastClick = now
             }
         }
-        if (hapticsOn && energy > BUZZ_ENERGY && now - lastBuzz >= BUZZ_INTERVAL_MS) {
-            lastBuzz = now
-            val strength = min(1f, energy / (BUZZ_ENERGY * 12f))
-            buzz(strength)
+        // Large impacts only. Contact count and steady support forces never trigger vibration.
+        val impulse = maxOf(wall, if (peak > .9f) peak * .65f else 0f)
+        if (hapticsOn && impulse > .42f && now - lastBuzz >= 120) {
+            val strength = ((impulse - .35f) * .65f).coerceIn(.12f,.8f)
+            val cost = .25f + strength * .65f
+            if (budget >= cost) { budget -= cost; lastBuzz = now; buzz(strength) }
         }
     }
 
-    /** A single confirmation tick for UI toggles. */
-    fun confirm() = buzz(0.8f)
-
     private fun buzz(strength: Float) {
+        if (!hapticsOn) return
         val effect = if (canTick) {
             VibrationEffect.startComposition()
-                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_TICK, 0.25f + 0.75f * strength)
+                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_TICK, strength)
                 .compose()
-        } else {
-            VibrationEffect.createOneShot(12, (40 + 215 * strength).toInt())
-        }
+        } else VibrationEffect.createOneShot(7, (25 + 150 * strength).toInt())
         vibrator.vibrate(effect)
     }
 
@@ -92,7 +100,7 @@ class Feedback(context: Context) {
 
     private fun writeClick(file: File, hz: Float) {
         val rate = 44_100
-        val samples = rate * 45 / 1000
+        val samples = rate * 75 / 1000
         val pcm = ShortArray(samples)
         val rnd = Random(hz.toInt())
         for (n in 0 until samples) {
@@ -101,7 +109,9 @@ class Feedback(context: Context) {
             val tone = sin(2.0 * PI * hz * t).toFloat() * exp(-t / 0.006f)
             val overtone = sin(2.0 * PI * hz * 2.7 * t).toFloat() * exp(-t / 0.0025f) * 0.4f
             val noise = (rnd.nextFloat() * 2f - 1f) * exp(-t / 0.0012f) * 0.5f
-            pcm[n] = ((tone + overtone + noise) * 0.55f * Short.MAX_VALUE).toInt()
+            val ring = sin(2.0 * PI * hz * 4.13 * t).toFloat() * exp(-t / .013f) * .16f
+            val ripple = if (hz == 1400f) sin(2.0 * PI * 2900 * t).toFloat() * exp(-t / .025f) * .15f else 0f
+            pcm[n] = ((tone + overtone + noise * .35f + ring + ripple) * 0.45f * Short.MAX_VALUE).toInt()
                 .coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
         }
         val data = ByteBuffer.allocate(44 + samples * 2).order(ByteOrder.LITTLE_ENDIAN)
@@ -114,9 +124,6 @@ class Feedback(context: Context) {
     }
 
     private companion object {
-        val CLICK_PITCHES = listOf(1900f, 2500f, 3200f, 4100f)
-        const val CLICK_INTERVAL_MS = 30L
-        const val BUZZ_INTERVAL_MS = 55L
-        const val BUZZ_ENERGY = 4f
+        val CLICK_PITCHES = listOf(1900f, 2500f, 3200f, 4100f, 1400f)
     }
 }
